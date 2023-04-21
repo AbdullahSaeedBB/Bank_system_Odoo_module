@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="consumer_bank_kanban" model="ir.ui.view">
+        <field name="name">consumer.bank.kanban</field>
+        <field name="model">consumers.bank</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id" attrs="{'invisible': True}"/>
+                <field name="image"/>
+                <field name="seq"/>
+                <field name="name"/>
+                <field name="state"/>
+                <field name="isVIP"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="account"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <t>
+                                <div class="o_kanban_image d-none d-md-block">
+                                    <img class="o_kanban_image_inner_pic"
+                                         t-att-src="kanban_image('consumers.bank', 'image', record.id.raw_value)"/>
+                                    <field name="state" widget="badge" style="margin: 5px 0;"
+                                           decoration-success="state=='secure'" decoration-warning="state=='freeze'"
+                                           decoration-danger="state=='stop'"/>
+                                </div>
+                            </t>
+                            <div>
+                                <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                    <strong class="o_kanban_record_top">
+
+                                        <div class="o_kanban_record_headings" style="color: goldenrod"
+                                             attrs="{'invisible': [('isVIP', '=', False)]}">
+                                            <strong>VIP</strong>
+                                            [<field name="seq"/>]
+                                            <field name="name"/>
+                                        </div>
+                                        <div class="o_kanban_record_headings"
+                                             attrs="{'invisible': [('isVIP', '=', True)]}">
+                                            [<field name="seq"/>]
+                                            <field name="name"/>
+                                        </div>
+
+                                        <strong>
+                                            <field name="account" widget="monetary"/>$
+                                        </strong>
+                                    </strong>
+                                    <div class="oe_kanban_details">
+                                        <ul>
+                                            <li>
+                                                <field name="phone"/>
+                                            </li>
+                                            <li>
+                                                <field name="email"/>
+                                            </li>
+                                            <li style="color: gray;">
+                                                Date registered:
+                                                <field name="date_registered"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="consumer_bank_tree" model="ir.ui.view">
+        <field name="name">consumer.bank.tree</field>
+        <field name="model">consumers.bank</field>
+        <field name="arch" type="xml">
+            <tree edit="True"
+                  decoration-danger="state=='stop'">
+                <field name="seq"/>
+                <field name="name"/>
+                <field name="age"/>
+                <field name="date_registered"/>
+                <field name="gender"/>
+                <field name="account" widget="monetary"/>
+                <field name="state" widget="badge"
+                       decoration-success="state=='secure'"
+                       decoration-warning="state=='freeze'"
+                       decoration-danger="state=='stop'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="consumer_bank_form" model="ir.ui.view">
+        <field name="name">consumer.bank.form</field>
+        <field name="model">consumers.bank</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(Bank_system.action_vip_check_wizard_form)d" string="Upgrade to VIP" type="action"
+                            class="oe_highlight" title="Upgrade to VIP" context="{'default_consumer': active_id}"/>
+                    <button name="stop" string="Stop" type="object" title="Stop this account"
+                            attrs="{'invisible': [('state', '=', 'stop')]}"/>
+                    <button name="secure" string="Secure" type="object" title="Secure this account"
+                            attrs="{'invisible': [('state', '=', 'secure')]}"/>
+                    <button name="freeze" string="Freeze" type="object" title="Freeze this account"
+                            attrs="{'invisible': [('state', '=', 'freeze')]}"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="secure,freeze"/>
+                </header>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name" string="Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Abdullah"/>
+                        </h1>
+                        <!--                        attrs="{'invisible': [('isVIP', '=', True)]}"-->
+                        <h3>
+                            <field name="seq"/>
+                        </h3>
+                        <h3 attrs="{'invisible': [('isVIP', '=', False)]}">
+                            <span style="color: goldenrod;">[ VIP ]
+                                <field name="seq"/>
+                            </span>
+                        </h3>
+                    </div>
+                    <group string="Consumer info">
+                        <group>
+                            <field name="gender" widget="radio"/>
+                            <field name="isVIP"/>
+                            <field name="seq"/>
+                        </group>
+                        <group>
+                            <field name="birthday"/>
+                            <field name="age"/>
+                        </group>
+                    </group>
+                    <group string="Account">
+                        <group>
+                            <label for="account"/>
+                            <div>
+                                <field name="account" class="oe_inline" widget="monetary"/>$
+                            </div>
+                        </group>
+                        <group>
+                            <field name="password" password="True"/>
+                            <field name="date_registered"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="money_history" string="Money history">
+                            <field name="money_history">
+                                <tree editable="bottom" decoration-danger="money_service=='pull'"
+                                      decoration-success="money_service=='add'">
+                                    <control>
+                                        <create name="adding" string="Adding money"
+                                                context="{'default_money_service': 'add'}"/>
+                                        <create name="pulling" string="Pulling money"
+                                                context="{'default_money_service': 'pull'}"/>
+                                    </control>
+                                    <field name="money_service" readonly="1" force_save="1"/>
+                                    <field name="money_count"/>
+                                    <field name="bank_place"/>
+                                    <field name="datetime"/>
+                                </tree>
+                                <form>
+                                    <field name="money_service"/>
+                                    <field name="money_count"/>
+                                    <field name="bank_place"/>
+                                    <field name="datetime"/>
+                                </form>
+                            </field>
+                        </page>
+                        <page name="connect" string="Connect">
+                            <group>
+                                <group>
+                                    <field name="phone" widget="phone"/>
+                                </group>
+                                <group>
+                                    <field name="email" widget="email"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_account_payment_search" model="ir.ui.view">
+        <field name="name">consumer.bank.search</field>
+        <field name="model">consumers.bank</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Male" name="male_gender" domain="[('gender', '=', 'male')]"/>
+                <filter string="Female" name="female_gender" domain="[('gender', '=', 'female')]"/>
+                <group string="Group By">
+                    <filter string="Gender" name="gender" context="{'group_by': 'gender'}"/>
+                    <filter string="State" name="state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    # Act Windows
+    <record id="action_consumers" model="ir.actions.act_window">
+        <field name="name">Consumers</field>
+        <field name="res_model">consumers.bank</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a consumer
+            </p>
+        </field>
+    </record>
+
+    <record id="action_consumersVIP" model="ir.actions.act_window">
+        <field name="name">Consumers VIP</field>
+        <field name="res_model">consumers.bank</field>
+        <field name="view_mode">tree,kanban</field>
+        <field name="domain">[('isVIP', '=', True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a consumer
+            </p>
+        </field>
+    </record>
+
+</odoo>

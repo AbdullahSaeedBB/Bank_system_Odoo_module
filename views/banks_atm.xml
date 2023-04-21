@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="atm_banks_tree" model="ir.ui.view">
+        <field name="name">atm.bank.tree</field>
+        <field name="model">banks.bank</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="country_id"/>
+                <field name="city"/>
+                <field name="IsAdd" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="atm_banks_form" model="ir.ui.view">
+        <field name="name">atm.bank.form</field>
+        <field name="model">banks.bank</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <label for="street" string="Address"/>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street 1..."/>
+                                <field name="street2" placeholder="Street 2..."/>
+                                <field name="country_id" placeholder="Country"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="IsAdd" widget="boolean_toggle"/>
+                            <field name="type" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    # Act Windows
+    <record id="action_banks_atm" model="ir.actions.act_window">
+        <field name="name">ATM</field>
+        <field name="res_model">banks.bank</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type','=','atm')]</field>
+        <field name="context">{'default_type': 'atm'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a ATM
+            </p>
+        </field>
+    </record>
+</odoo>

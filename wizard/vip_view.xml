@@ -1,0 +1,47 @@
+<odoo>
+
+    <record id="vip_check_wizard_form" model="ir.ui.view">
+        <field name="name">VIP Check</field>
+        <field name="model">vip.check</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="consumer" invisible="1"/>
+                    <field name="can_upgrade" invisible="1"/>
+                    <group>
+                        <field name="char1" readonly="1" invisible="1"/>
+                        <field name="char2" readonly="1" invisible="1"/>
+                        <field name="char3" readonly="1" invisible="1"/>
+                    </group>
+                </group>
+                <p>You can upgrade your account to VIP, when conditions are met.</p>
+                <ul>
+                    <li><span attrs="{'invisible': [('char1', '=', False)]}">✔</span><span attrs="{'invisible': [('char1', '=', True)]}">❌</span> In your account more than 100,000.</li>
+                    <li><span attrs="{'invisible': [('char2', '=', False)]}">✔</span><span attrs="{'invisible': [('char2', '=', True)]}">❌</span> You had added in his account 50,000 or above.</li>
+                    <li><span attrs="{'invisible': [('char3', '=', False)]}">✔</span><span attrs="{'invisible': [('char3', '=', True)]}">❌</span> He made his account more than year.</li>
+                </ul>
+<!--                <button string="Check" name="check" type="object" class="oe_highlight"/>-->
+                <p attrs="{'invisible': [('can_upgrade', '=', True)]}">
+                    <strong>Sorry, but you can't upgrade.</strong>
+                </p>
+                <p attrs="{'invisible': [('can_upgrade', '=', False)]}">
+                    <strong>You can upgrade to VIP.</strong>
+                </p>
+                <footer>
+                    <button string="Upgrade" name="upgrade_to_vip" class="oe_highlight" type="object"
+                            attrs="{'invisible': [('can_upgrade', '=', False)]}"/>
+<!--                    <button string="Cancel" class="oe_link" special="cancel"/>-->
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vip_check_wizard_form" model="ir.actions.act_window">
+        <field name="name">VIP check wizard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">vip.check</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="report_consumer" model="ir.actions.report">
+        <field name="name">Consumer PDF</field>
+        <field name="model">consumers.bank</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">Bank_system.report_consumer_id</field>
+        <field name="report_file">Bank_system.report_consumer_id</field>
+        <field name="binding_model_id" ref="model_consumers_bank"/>
+    </record>
+
+</odoo>

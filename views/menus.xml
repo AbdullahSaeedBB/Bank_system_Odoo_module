@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem id="bank_system_base"
+              name="Bank System"
+              sequence="1">
+
+        <menuitem id="consumer_menu"
+                  name="Consumer"
+                  sequence="20">
+
+            <menuitem id="consumer"
+                      name="Consumers"
+                      action="action_consumers"
+                      sequence="10"/>
+
+            <menuitem id="consumer_vip"
+                      name="Consumers VIP"
+                      action="action_consumersVIP"
+                      sequence="10"/>
+        </menuitem>
+
+        <menuitem id="banks_menu"
+                  name="Banks"
+                  sequence="20">
+
+            <menuitem id="atm_bank"
+                      name="ATM"
+                      action="action_banks_atm"
+                      sequence="10"/>
+
+            <menuitem id="bank_bank"
+                      name="Bank"
+                      action="action_banks_bank"
+                      sequence="5"/>
+
+        </menuitem>
+    </menuitem>
+</odoo>

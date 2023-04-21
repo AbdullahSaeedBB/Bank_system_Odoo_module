@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+Bank_system.access_consumers_bank,access_consumers_bank,Bank_system.model_consumers_bank,base.group_user,1,1,1,1
+Bank_system.access_money_history_bank,access_money_history_bank,Bank_system.model_money_history_bank,base.group_user,1,1,1,1
+Bank_system.access_banks_bank,access_banks_bank,Bank_system.model_banks_bank,base.group_user,1,1,1,1
+Bank_system.access_vip_check,access_vip_check,Bank_system.model_vip_check,base.group_user,1,1,1,1

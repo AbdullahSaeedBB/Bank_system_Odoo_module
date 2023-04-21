@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="bank_banks_tree" model="ir.ui.view">
+        <field name="name">bank.banks.tree</field>
+        <field name="model">banks.bank</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="country_id"/>
+                <field name="city"/>
+                <field name="phone"/>
+                <field name="email"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="bank_banks_form" model="ir.ui.view">
+        <field name="name">bank.banks.form</field>
+        <field name="model">banks.bank</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <label for="street" string="Address"/>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street 1..."/>
+                                <field name="street2" placeholder="Street 2..."/>
+                                <field name="country_id" placeholder="Country"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="IsAdd" invisible="1"/>
+                            <field name="type" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="banks_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="bank_banks_form"/>
+        <field name="act_window_id" ref="action_banks_bank"/>
+    </record>
+
+    <record id="banks_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="bank_banks_tree"/>
+        <field name="act_window_id" ref="action_banks_bank"/>
+    </record>
+
+    <record id="action_banks_bank" model="ir.actions.act_window">
+        <field name="name">Bank</field>
+        <field name="res_model">banks.bank</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type','=','bank')]</field>
+        <field name="context">{'default_type': 'bank'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a ATM
+            </p>
+        </field>
+    </record>
+
+</odoo>
